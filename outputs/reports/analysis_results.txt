@@ -1,0 +1,160 @@
+DTS 204 PENGUINS ANALYSIS RESULTS
+=================================
+
+DATASET INFORMATION
+-------------------
+Total rows: 344 
+Total columns: 8 
+Complete numerical rows: 342 
+Rows with recorded sex: 333 
+
+COLUMN NAMES
+------------
+[1] "species"           "island"            "bill_length_mm"   
+[4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      
+[7] "sex"               "year"             
+
+MISSING VALUES
+--------------
+          species            island    bill_length_mm     bill_depth_mm 
+                0                 0                 2                 2 
+flipper_length_mm       body_mass_g               sex              year 
+                2                 2                11                 0 
+Total missing values: 19 
+
+SUMMARY STATISTICS
+------------------
+                           variable     mean  median minimum maximum  range
+bill_length_mm       bill_length_mm   43.922   44.45    32.1    59.6   27.5
+bill_depth_mm         bill_depth_mm   17.151   17.30    13.1    21.5    8.4
+flipper_length_mm flipper_length_mm  200.915  197.00   172.0   231.0   59.0
+body_mass_g             body_mass_g 4201.754 4050.00  2700.0  6300.0 3600.0
+                  standard_deviation
+bill_length_mm                 5.460
+bill_depth_mm                  1.975
+flipper_length_mm             14.062
+body_mass_g                  801.955
+
+TWO-SAMPLE T-TEST
+-----------------
+H0: Mean body mass is the same for Adelie and Gentoo penguins.
+H1: Mean body mass differs between Adelie and Gentoo penguins.
+
+# A tibble: 2 × 4
+  species sample_size mean_body_mass standard_deviation
+  <chr>         <int>          <dbl>              <dbl>
+1 Adelie          151          3701.               459.
+2 Gentoo          123          5076.               504.
+
+	Welch Two Sample t-test
+
+data:  body_mass_g by species
+t = -23.386, df = 249.64, p-value < 2.2e-16
+alternative hypothesis: true difference in means between group Adelie and group Gentoo is not equal to 0
+95 percent confidence interval:
+ -1491.183 -1259.525
+sample estimates:
+mean in group Adelie mean in group Gentoo 
+            3700.662             5076.016 
+
+
+Decision: Reject H0 
+Interpretation: There is sufficient statistical evidence that the mean body mass differs between Adelie and Gentoo penguins. 
+
+PROPORTION TEST
+----------------
+H0: The proportion of male penguins is 0.50.
+H1: The proportion of male penguins is not equal to 0.50.
+
+Male penguins: 168 
+Known-sex observations: 333 
+Observed male proportion: 0.5045 
+
+	1-sample proportions test without continuity correction
+
+data:  number_male out of number_known_sex, null probability 0.5
+X-squared = 0.027027, df = 1, p-value = 0.8694
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.4510597 0.5578466
+sample estimates:
+        p 
+0.5045045 
+
+
+Decision: Fail to reject H0 
+Interpretation: The proportion of male penguins is not significantly different from 50%. 
+
+CORRELATION MATRIX
+------------------
+                  bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+bill_length_mm             1.000        -0.235             0.656       0.595
+bill_depth_mm             -0.235         1.000            -0.584      -0.472
+flipper_length_mm          0.656        -0.584             1.000       0.871
+body_mass_g                0.595        -0.472             0.871       1.000
+
+SIMPLE LINEAR REGRESSION
+------------------------
+
+Call:
+lm(formula = body_mass_g ~ flipper_length_mm, data = numeric_complete)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1058.80  -259.27   -26.88   247.33  1288.69 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       -5780.831    305.815  -18.90   <2e-16 ***
+flipper_length_mm    49.686      1.518   32.72   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 394.3 on 340 degrees of freedom
+Multiple R-squared:  0.759,	Adjusted R-squared:  0.7583 
+F-statistic:  1071 on 1 and 340 DF,  p-value: < 2.2e-16
+
+
+Regression equation:
+Predicted body mass = -5780.831 + 49.686 x flipper length
+
+Interpretation: 75.9 % of the variation in body mass is explained by flipper length in the simple regression model. 
+
+MULTIPLE LINEAR REGRESSION
+--------------------------
+
+Call:
+lm(formula = body_mass_g ~ flipper_length_mm + bill_length_mm + 
+    bill_depth_mm, data = numeric_complete)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1054.94  -290.33   -21.91   239.04  1276.64 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       -6424.765    561.469 -11.443   <2e-16 ***
+flipper_length_mm    50.269      2.477  20.293   <2e-16 ***
+bill_length_mm        4.162      5.329   0.781    0.435    
+bill_depth_mm        20.050     13.694   1.464    0.144    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 393.4 on 338 degrees of freedom
+Multiple R-squared:  0.7615,	Adjusted R-squared:  0.7594 
+F-statistic: 359.7 on 3 and 338 DF,  p-value: < 2.2e-16
+
+
+Regression equation:
+Predicted body mass = -6424.765 + 50.269 x flipper length + 4.162 x bill length + 20.05 x bill depth
+
+Interpretation: 76.15 % of the variation in body mass is explained by flipper length, bill length and bill depth. 
+
+MODEL COMPARISON
+----------------
+                model r_squared adjusted_r_squared residual_standard_error
+1   Simple regression    0.7590             0.7583                 394.278
+2 Multiple regression    0.7615             0.7594                 393.405
+
+Preferred model: Multiple regression 
+Interpretation: The multiple regression model provides a better fit because it has the higher adjusted R-squared value. 

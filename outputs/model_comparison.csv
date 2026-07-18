@@ -1,0 +1,3 @@
+"model","r_squared","adjusted_r_squared","residual_standard_error"
+"Simple regression",0.759,0.7583,394.278
+"Multiple regression",0.7615,0.7594,393.405
